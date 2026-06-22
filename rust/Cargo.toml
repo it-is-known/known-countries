@@ -1,0 +1,39 @@
+# See: https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package]
+name = "known-countries"
+version = "0.0.1"
+authors = ["Arto Bendiken"]
+edition = "2024"
+rust-version = "1.85"
+description = "Well-known countries."
+#documentation = "https://docs.rs/known-countries"
+readme = true
+homepage = "https://github.com/it-is-known/known-countries"
+repository = "https://github.com/it-is-known/known-countries"
+license = "Unlicense"
+keywords = ["known", "country", "data"]
+categories = ["rust-patterns", "no-std"]
+publish = true
+
+[features]
+default = ["all", "std"]
+all = []
+alloc = []
+std = ["alloc", "borsh?/std", "serde?/std", "serde_json?/std"]
+unstable = []
+
+# Interoperability:
+borsh = ["dep:borsh"]
+bson = ["dep:bson"]
+serde = ["dep:serde", "dep:serde_json", "bson?/serde", "bson?/serde_json-1"]
+
+[dependencies]
+
+# Interoperability:
+borsh = { version = "1.6", default-features = false, features = ["derive"], optional = true }
+bson = { version = "3.1", default-features = false, features = ["compat-3-0-0"], optional = true }
+serde = { version = "1", default-features = false, features = ["derive"], optional = true }
+serde_json = { version = "1", default-features = false, features = [], optional = true }
+
+[dev-dependencies]
