@@ -15,8 +15,8 @@ extern crate alloc;
 #[cfg(feature = "std")]
 extern crate std;
 
-//mod country;
-//pub use country::*;
+mod country;
+pub use country::*;
 
 #[doc = include_str!("../../README.md")]
 #[cfg(doctest)]

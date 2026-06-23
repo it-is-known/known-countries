@@ -1,0 +1,12 @@
+# This is free and unencumbered software released into the public domain.
+
+from enum import StrEnum
+
+# A country (based on ISO 3166-1).
+class Country(StrEnum):
+    """A country"""
+    {%- for country in countries %}
+
+    {{ country.name | constcase }} = "{{ country.code }}"
+    """{{ country.name }} ("{{ country.code }}" in ISO 3166-1)"""
+    {%- endfor %}

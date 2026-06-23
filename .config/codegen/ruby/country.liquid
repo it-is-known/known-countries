@@ -1,0 +1,34 @@
+# This is free and unencumbered software released into the public domain.
+
+module Known; end
+module Known::Countries; end
+
+##
+# A country (based on ISO 3166-1).
+class Known::Countries::Country
+  ##
+  # The country code (ISO 3166-1).
+  #
+  # @return [Symbol]
+  attr_reader :code
+
+  private_class_method :new
+
+  ##
+  # Defines a new country.
+  #
+  # @param code [#to_sym] The country code (ISO 3166-1).
+  def initialize(code)
+    @code = code.to_sym
+    self.freeze
+  end
+
+  {%- for country in countries %}
+
+  ##
+  # {{ country.name }} ("{{ country.code }}" in ISO 3166-1)
+  #
+  # @return [Country]
+  {{ country.name | constcase }} = new(:{{ country.code }})
+  {%- endfor %}
+end # Known::Countries::Country

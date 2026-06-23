@@ -1,0 +1,160 @@
+// This is free and unencumbered software released into the public domain.
+
+use core::str::FromStr;
+
+#[cfg(feature = "alloc")]
+use alloc::{
+    borrow::Cow,
+    string::{String, ToString},
+};
+
+/// A country (based on ISO 3166-1).
+#[derive(Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
+#[cfg_attr(feature = "borsh", derive(borsh::BorshSerialize, borsh::BorshDeserialize))]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[non_exhaustive]
+pub enum Country {
+    {%- for country in countries %}
+
+    /// {{ country.name }} ("{{ country.code }}" in ISO 3166-1)
+    {%- if country.code == "us" %}
+    #[default]
+    {%- endif %}
+    {{ country.name | pascalcase }},
+    {%- endfor %}
+
+    #[cfg(feature = "alloc")]
+    Other(String),
+}
+
+impl Country {
+    pub const ALL: &'static [Self] = &[];
+
+    pub fn as_str(&self) -> &str {
+        use Country::*;
+        match self {
+            {%- for country in countries %}
+            {{ country.name | pascalcase }} => "{{ country.code }}",
+            {%- endfor %}
+
+            #[cfg(feature = "alloc")]
+            Other(input) => input.as_str(),
+        }
+    }
+
+    #[cfg(feature = "alloc")]
+    pub fn into_string(self) -> String {
+        self.as_str().into()
+    }
+
+    #[cfg(all(feature = "serde", feature = "alloc"))]
+    pub fn to_json(&self) -> Option<serde_json::Value> {
+        Some(self.clone().into_json())
+    }
+
+    #[cfg(all(feature = "serde", feature = "alloc"))]
+    pub fn into_json(self) -> serde_json::Value {
+        serde_json::Value::String(self.into_string())
+    }
+
+    #[cfg(all(feature = "bson", feature = "alloc"))]
+    pub fn to_bson(&self) -> Option<bson::Bson> {
+        Some(self.clone().into_bson())
+    }
+
+    #[cfg(all(feature = "bson", feature = "alloc"))]
+    pub fn into_bson(self) -> bson::Bson {
+        bson::Bson::String(self.into_string())
+    }
+}
+
+impl FromStr for Country {
+    type Err = ();
+
+    fn from_str(input: &str) -> Result<Self, Self::Err> {
+        use Country::*;
+        Ok(match input {
+            {%- for country in countries %}
+            "{{ country.code }}" => {{ country.name | pascalcase }},
+            {%- endfor %}
+            _ => return Err(()),
+        })
+    }
+}
+
+impl core::fmt::Display for Country {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}", self.as_str())
+    }
+}
+
+impl AsRef<str> for Country {
+    fn as_ref(&self) -> &str {
+        self.as_str()
+    }
+}
+
+impl<T> From<&T> for Country
+where
+    T: Clone + Into<Self>,
+{
+    fn from(t: &T) -> Self {
+        t.clone().into()
+    }
+}
+
+impl From<&str> for Country {
+    fn from(input: &str) -> Self {
+        match input.parse() {
+            Ok(output) => output,
+
+            #[cfg(feature = "alloc")]
+            Err(_) => Self::Other(input.into()),
+
+            #[cfg(not(feature = "alloc"))]
+            Err(_) => unimplemented!("unknown country: {}", input),
+        }
+    }
+}
+
+#[cfg(feature = "alloc")]
+impl<'a> From<Cow<'a, str>> for Country {
+    fn from(input: Cow<'a, str>) -> Self {
+        input
+            .parse()
+            .unwrap_or_else(|_| Self::Other(input.into_owned()))
+    }
+}
+
+#[cfg(feature = "alloc")]
+impl From<String> for Country {
+    fn from(input: String) -> Self {
+        input.parse().unwrap_or_else(|_| Self::Other(input))
+    }
+}
+
+#[cfg(all(feature = "serde", feature = "alloc"))]
+impl TryFrom<serde_json::Value> for Country {
+    type Error = ();
+
+    fn try_from(input: serde_json::Value) -> Result<Self, Self::Error> {
+        use serde_json::Value;
+        match input {
+            Value::String(input) => Ok(input.parse().unwrap_or_else(|_| Self::Other(input))),
+            _ => Err(()),
+        }
+    }
+}
+
+impl From<&'static Country> for &str {
+    fn from(input: &'static Country) -> Self {
+        input.as_str()
+    }
+}
+
+#[cfg(feature = "alloc")]
+impl From<Country> for String {
+    fn from(input: Country) -> Self {
+        input.to_string()
+    }
+}
