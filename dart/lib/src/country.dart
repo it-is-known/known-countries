@@ -1,6 +1,1 @@
 // This is free and unencumbered software released into the public domain.
-
-/// Well-known countries.
-library;
-
-export 'src/country.dart';

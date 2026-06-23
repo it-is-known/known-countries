@@ -1,15 +1,14 @@
+# See: https://dart.dev/tools/pub/pubspec
+---
 name: known_countries
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
-
-environment:
-  sdk: ^3.11.0
-
-# Add regular dependencies here.
-dependencies:
-  # path: ^1.9.0
-
+version: 0.0.1
+description: >-
+  Well-known countries.
+homepage: https://github.com/it-is-known
+repository: https://github.com/it-is-known/known-countries
+issue_tracker: https://github.com/it-is-known/known-countries/issues
 dev_dependencies:
   lints: ^6.0.0
-  test: ^1.25.6
+  test: ^1.25.0
+environment:
+  sdk: ^3.11.0
