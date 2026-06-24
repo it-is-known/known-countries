@@ -1,15 +1,8 @@
 require 'csv'
-require 'liquid'
-require 'lvr/template/filters'
-#require 'tilt'
-
-HEADER = File.open('UNLICENSE').readlines.first
-LIQUID_ENV = Liquid::Environment.new.register_filters([Lvr::Template::Filters])
+require 'lvr'
 
 Country = Data.define(:alpha2, :alpha3, :name) do
-  def to_liquid
-    { 'code' => alpha2, 'alpha2' => alpha2, 'alpha3' => alpha3, 'name' => name }
-  end
+  def to_liquid = self.to_h.merge(code: alpha2).transform_keys(&:to_s)
 end
 
 task :default => %w[dart python ruby rust]
@@ -54,21 +47,13 @@ file 'rust/src/country.rs' => 'data/countries.csv' do |t|
   File.open(t.name, 'w') { it.puts codegen_countries(:rust) } # TODO: `rustfmt`
 end
 
-def codegen_readme(target)
-  countries = load_countries()
-  template = load_template(".config/codegen/#{target}/README.md.liquid")
-  template.render!({ 'countries' => countries },
-    { error_mode: :strict, strict_variables: true, strict_filters: true })
-end
+def codegen_readme(target) = Lvr::Template
+  .load(".config/codegen/#{target}/README.md.liquid")
+  .render(countries: load_countries())
 
-def codegen_countries(target)
-  countries = load_countries()
-  template = load_template(".config/codegen/#{target}/country.liquid")
-  template.render!({ 'countries' => countries },
-    { error_mode: :strict, strict_variables: true, strict_filters: true })
-end
-
-def load_template(path) = Liquid::Template.new(environment: LIQUID_ENV).parse(File.read(path))
+def codegen_countries(target) = Lvr::Template
+  .load(".config/codegen/#{target}/country.liquid")
+  .render(countries: load_countries())
 
 def load_countries() = parse_csv('data/countries.csv')
   .map { |(alpha2, alpha3, name)| Country.new(alpha2, alpha3, name) }
