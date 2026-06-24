@@ -1,29 +1,16 @@
 require 'csv'
 require 'liquid'
-require 'tilt'
+require 'lvr/template/filters'
+#require 'tilt'
 
 HEADER = File.open('UNLICENSE').readlines.first
+LIQUID_ENV = Liquid::Environment.new.register_filters([Lvr::Template::Filters])
 
 Country = Data.define(:alpha2, :alpha3, :name) do
   def to_liquid
     { 'code' => alpha2, 'alpha2' => alpha2, 'alpha3' => alpha3, 'name' => name }
   end
 end
-
-module Liquid::StandardFilters
-  def constcase(input)
-    input.split(' ').map(&:upcase).join('_')
-  end
-
-  def camelcase(input)
-    output = pascalcase(input)
-    output[0].downcase + output[1..]
-  end
-
-  def pascalcase(input)
-    input.split(' ').map(&:capitalize).join('')
-  end
-end # Liquid::StandardFilters
 
 task :default => %w[dart python ruby rust]
 
@@ -81,7 +68,7 @@ def codegen_countries(target)
     { error_mode: :strict, strict_variables: true, strict_filters: true })
 end
 
-def load_template(path) = Liquid::Template.parse(File.read(path))
+def load_template(path) = Liquid::Template.new(environment: LIQUID_ENV).parse(File.read(path))
 
 def load_countries() = parse_csv('data/countries.csv')
   .map { |(alpha2, alpha3, name)| Country.new(alpha2, alpha3, name) }
