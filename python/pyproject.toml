@@ -14,7 +14,7 @@ license = "Unlicense"
 license-files = ["UNLICENSE"]
 version = "0.0.0"
 
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = []
 
 keywords = []
