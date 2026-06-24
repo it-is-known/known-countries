@@ -1,7 +1,7 @@
 # See: https://dart.dev/tools/pub/pubspec
 ---
 name: known_countries
-version: 0.0.1
+version: 0.0.2
 description: >-
   Well-known countries.
 homepage: https://github.com/it-is-known
