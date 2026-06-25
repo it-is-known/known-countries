@@ -6,6 +6,7 @@ Country = Data.define(:alpha2, :alpha3, :name) do
 end
 
 codegen = ->(t, _) { Lvr.codegen(t.name, t.source, countries: load_countries) }
+copy = ->(t, _) { cp t.source, t.name }
 
 task :default => %w[dart python ruby rust]
 
@@ -20,6 +21,8 @@ file 'python/src/known_countries/__init__.py' => %w[.config/codegen/python/count
 task ruby: %w[ruby/README.md ruby/lib/known/countries.rb]
 file 'ruby/README.md' => %w[.config/codegen/ruby/README.md.liquid data/countries.csv], &codegen
 file 'ruby/lib/known/countries.rb' => %w[.config/codegen/ruby/country.liquid data/countries.csv], &codegen
+file 'ruby/CHANGES.md' => %w[CHANGES.md], &copy
+file 'ruby/VERSION' => %w[VERSION], &copy
 
 task rust: %w[rust/README.md rust/src/country.rs]
 file 'rust/README.md' => %w[.config/codegen/rust/README.md.liquid data/countries.csv], &codegen
