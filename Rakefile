@@ -7,10 +7,11 @@ Country = Data.define(:alpha2, :alpha3, :name) do
   def to_liquid = self.to_h.merge(code: alpha2).transform_keys(&:to_s)
 end
 
-codegen = ->(t, _) { Lvr.codegen(t.name, t.source, countries: load_countries) }
+codegen = ->(t, _) { Lvr.codegen(t.name, t.source, **CONTEXT) }
 copy = ->(t, _) { cp t.source, t.name }
 
-task :default => %w[dart python ruby rust]
+task :default => %w[README.md dart python ruby rust]
+file 'README.md' => %w[.config/codegen/README.md.liquid], &codegen
 
 task dart: %w[dart/README.md dart/lib/src/country.dart]
 file 'dart/README.md' => %w[.config/codegen/dart/README.md.liquid data/countries.csv], &codegen
@@ -30,7 +31,18 @@ task rust: %w[rust/README.md rust/src/country.rs]
 file 'rust/README.md' => %w[.config/codegen/rust/README.md.liquid data/countries.csv], &codegen
 file 'rust/src/country.rs' => %w[.config/codegen/rust/country.liquid data/countries.csv], &codegen
 
-def load_countries() = parse_csv('data/countries.csv')
-  .map { |(alpha2, alpha3, name)| Country.new(alpha2, alpha3, name) }
-
+def load_countries = parse_csv('data/countries.csv').map { Country.new(*it) }
 def parse_csv(path) = CSV.parse(File.read(path), headers: false)
+
+CONTEXT = {
+  project: {
+    title: "Known Countries",
+  },
+  github: {
+    repository: {
+      link: 'https://github.com/it-is-known/known-countries',
+      url:  'https://github.com/it-is-known/known-countries.git',
+    }
+  },
+  countries: load_countries,
+}
