@@ -1,7 +1,7 @@
 # Known Countries for Ruby
 
 [![License](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](https://unlicense.org)
-[![Compatibility](https://img.shields.io/badge/ruby-3.2%2B-blue)](https://rubyreferences.github.io/rubychanges/3.2.html)
+[![Compatibility](https://img.shields.io/badge/ruby-3.4%2B-blue)](https://rubyreferences.github.io/rubychanges/3.4.html)
 [![Package](https://img.shields.io/gem/v/known-countries)](https://rubygems.org/gems/known-countries)
 [![Documentation](https://img.shields.io/badge/rubydoc-latest-blue)](https://rubydoc.info/gems/known-countries)
 
@@ -27,7 +27,7 @@
 
 ## 🛠️ Prerequisites
 
-- [Ruby] 3.2+
+- [Ruby] 3.4+
 
 ## ⬇️ Installation
 
