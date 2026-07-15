@@ -21,7 +21,7 @@ task python: %w[python/README.md python/src/known_countries/__init__.py]
 file 'python/README.md' => %w[.config/codegen/python/README.md.liquid data/countries.csv], &codegen
 file 'python/src/known_countries/__init__.py' => %w[.config/codegen/python/country.liquid data/countries.csv], &codegen
 
-task ruby: %w[ruby/README.md ruby/lib/known/countries.rb]
+task ruby: %w[ruby/README.md ruby/lib/known/countries.rb ruby/CHANGES.md ruby/VERSION]
 file 'ruby/README.md' => %w[.config/codegen/ruby/README.md.liquid data/countries.csv], &codegen
 file 'ruby/lib/known/countries.rb' => %w[.config/codegen/ruby/country.liquid data/countries.csv], &codegen
 file 'ruby/CHANGES.md' => %w[CHANGES.md], &copy
