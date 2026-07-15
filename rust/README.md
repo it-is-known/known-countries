@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-Public%20Domain-blue.svg)](https://unlicense.org)
 [![Compatibility](https://img.shields.io/badge/rust-1.85%2B-blue)](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0/)
 [![Package](https://img.shields.io/crates/v/known-countries)](https://crates.io/crates/known-countries)
-[![Documentation](https://docs.rs/known-countries/badge.svg)](https://docs.rs/known-countries)
+[![Documentation](https://img.shields.io/docsrs/known-countries?label=docs.rs)](https://docs.rs/known-countries)
 
 **Well-known countries for Rust.**
 
@@ -18,6 +18,8 @@
 
 </sub>
 
+<br/>
+
 ## ✨ Features
 
 - Provides an enum of well-known countries (ISO 3166-1).
@@ -26,8 +28,8 @@
 - Plays nice with others: interoperates with [Borsh], [BSON], and [Serde].
 - Supports opting out of any feature using comprehensive [feature flags].
 - Adheres to the Rust API Guidelines in its [naming conventions].
-- Cuts red tape: 100% free and unencumbered public domain software.
 - Polyglot software also available for Dart, Python, and Ruby.
+- Cuts red tape: 100% free and unencumbered public domain software.
 
 ## 🛠️ Prerequisites
 
@@ -98,9 +100,9 @@ git clone https://github.com/it-is-known/known-countries.git
 
 ---
 
-[![Share on X](https://img.shields.io/badge/share%20on-x-03A9F4?logo=x)](https://x.com/intent/post?url=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries&text=Known+Countries)
-[![Share on Reddit](https://img.shields.io/badge/share%20on-reddit-red?logo=reddit)](https://reddit.com/submit?url=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries&title=Known+Countries)
-[![Share on Hacker News](https://img.shields.io/badge/share%20on-hn-orange?logo=ycombinator)](https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries&t=Known+Countries)
+[![Share on X](https://img.shields.io/badge/share%20on-x-03A9F4?logo=x)](https://x.com/intent/post?url=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries&text=Known%20Countries)
+[![Share on Reddit](https://img.shields.io/badge/share%20on-reddit-red?logo=reddit)](https://reddit.com/submit?url=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries&title=Known%20Countries)
+[![Share on Hacker News](https://img.shields.io/badge/share%20on-hn-orange?logo=ycombinator)](https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries&t=Known%20Countries)
 [![Share on Facebook](https://img.shields.io/badge/share%20on-fb-1976D2?logo=facebook)](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries)
 [![Share on LinkedIn](https://img.shields.io/badge/share%20on-linkedin-3949AB?logo=linkedin)](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Fit-is-known%2Fknown-countries)
 
